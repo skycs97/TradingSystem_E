@@ -4,26 +4,28 @@
 
 void AutoTradingSystem::selectStockBrocker(Driver* input)
 {
+	if (input == nullptr)
+		throw DriverIsNullPtrException("[AutoTradingSystem] driver is null");
 	drv = input;
 }
 
 void AutoTradingSystem::login(std::string stockCode, std::string pass) {
-	if (drv == nullptr)
-		return;
-
+	if (isDriverNull())
+		throw DriverIsNullPtrException("[AutoTradingSystem] can't login");
 	drv->loginSystem(stockCode, pass);
 }
 
 void AutoTradingSystem::buy(std::string stockCode, int price, int count) {
-	if (drv == nullptr)
-		return;
+
+	if (isDriverNull())
+		throw DriverIsNullPtrException("[AutoTradingSystem] can't buy stock");
 	checkBuyPrecondition(price, count);
 	drv->buyStock(stockCode, price, count);
 }
 
 void AutoTradingSystem::sell(std::string stockCode, int price, int count) {
-	if (drv == nullptr)
-		return;
+	if (isDriverNull())
+		throw DriverIsNullPtrException("[AutoTradingSystem] can't sell stock");;
 	checkSellPrecondition(price, count);
 	drv->sellStock(stockCode, price, count);
 }
@@ -62,9 +64,8 @@ void AutoTradingSystem::checkPositiveCount(int count)
 }
 
 int AutoTradingSystem::getPrice(std::string stockCode) {
-	if (drv == nullptr)
-		return -1;
-
+	if (isDriverNull())
+		throw DriverIsNullPtrException("[AutoTradingSystem] can't get price");
 	return drv->getMarketPrice(stockCode, 0);
 }
 
@@ -117,11 +118,16 @@ bool AutoTradingSystem::isDescendingPrice(std::string stockCode, unsigned int& l
 		}
 		else break;
 	}
-	
+
 	if (check_num == GET_MARKET_PRICE_COUNT)
 	{
 		last_price = prev_price;
 		return true;
 	}
 	else return false;
+}
+
+bool AutoTradingSystem::isDriverNull() {
+
+	return (drv == nullptr);
 }

@@ -139,6 +139,7 @@
     <ClCompile Include="kiwer_driver.cpp" />
     <ClCompile Include="nemo_api.cpp" />
     <ClCompile Include="nemo_driver.cpp" />
+    <ClCompile Include="test_AutoTradingSystem_common.cpp" />
     <ClCompile Include="test_AutoTradingSystem_with_kiwer.cpp" />
     <ClCompile Include="test_AutoTradingSystem_with_mock.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> %(AdditionalOptions)</AdditionalOptions>
