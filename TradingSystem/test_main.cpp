@@ -16,6 +16,7 @@ public:
 	MOCK_METHOD(int, getMarketPrice, (string, int), (override));
 };
 
+
 TEST(TradingSystem, SelectNemoDriver) {
 	MockDriver nemoDriver;
 	MockDriver kiwerDriver;
@@ -74,6 +75,88 @@ TEST(TradingSystem, KiwerLogin) {
 		.Times(1);
 
 	system.login("user", "passwd");
+}
+
+TEST(TradingSystem, NemoBuyStock) {
+	MockDriver nemoDriver;
+	MockDriver kiwerDriver;
+	AutoTradingSystem system;
+
+	system.addDriver("nemo", &nemoDriver);
+	system.addDriver("kiwer", &kiwerDriver);
+
+	system.selectDriver("nemo");
+
+	EXPECT_CALL(nemoDriver, buyStock)
+		.Times(1);
+	EXPECT_CALL(kiwerDriver, buyStock)
+		.Times(0);
+
+	system.buy("samsung", 50000, 15);
+}
+
+TEST(TradingSystem, KiwerBuyStock) {
+	MockDriver nemoDriver;
+	MockDriver kiwerDriver;
+	AutoTradingSystem system;
+
+	system.addDriver("nemo", &nemoDriver);
+	system.addDriver("kiwer", &kiwerDriver);
+
+	system.selectDriver("kiwer");
+
+	EXPECT_CALL(nemoDriver, buyStock)
+		.Times(0);
+	EXPECT_CALL(kiwerDriver, buyStock)
+		.Times(1);
+
+	system.buy("samsung", 50000, 15);
+}
+
+TEST(TradingSystem, NemoSellSTock) {
+	MockDriver nemoDriver;
+	MockDriver kiwerDriver;
+	AutoTradingSystem system;
+
+	system.addDriver("nemo", &nemoDriver);
+	system.addDriver("kiwer", &kiwerDriver);
+
+	system.selectDriver("nemo");
+
+	EXPECT_CALL(nemoDriver, buyStock)
+		.Times(1);
+	EXPECT_CALL(kiwerDriver, buyStock)
+		.Times(0);
+
+	system.sell("samsung", 50000, 15);
+}
+
+TEST(TradingSystem, KiwerSellStock) {
+	MockDriver nemoDriver;
+	MockDriver kiwerDriver;
+	AutoTradingSystem system;
+
+	system.addDriver("nemo", &nemoDriver);
+	system.addDriver("kiwer", &kiwerDriver);
+
+	system.selectDriver("kiwer");
+
+	EXPECT_CALL(nemoDriver, sellStock)
+		.Times(0);
+	EXPECT_CALL(kiwerDriver, sellStock)
+		.Times(1);
+
+	system.sell("samsung", 50000, 15);
+}
+
+TEST(TradingSystem, GetMarketPriceTest) {
+	MockDriver mockedDriver;
+	AutoTradingSystem system;
+	EXPECT_CALL(mockedDriver, getMarketPrice(_, _))
+		.WillRepeatedly(Return(10000));
+	system.selectStockBrocker(&mockedDriver);
+
+	EXPECT_EQ(system.getPrice("samsung"), 10000);
 }
 
 int main(void) {
