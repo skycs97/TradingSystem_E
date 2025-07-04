@@ -44,16 +44,13 @@ bool AutoTradingSystem::buyNiceTiming(std::string stockCode, int price)
 	{
 		current_price = drv->getMarketPrice(stockCode, SLEEP_MS);
 		if (current_price < previous_price) {
-			break;
+			return false;
 		}
 
 		check_price_count++;
 		previous_price = current_price;
 	}
 
-	if (check_price_count < GET_MARKET_PRICE_COUNT) {
-		return false;
-	}
 	int count = price / current_price;
 
 	drv->buyStock(stockCode, current_price, count);
