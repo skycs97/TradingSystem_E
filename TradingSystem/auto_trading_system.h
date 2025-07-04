@@ -18,6 +18,11 @@ private:
 
 class AutoTradingSystem {
 public:
+	enum PricePatternType {
+		PricePatternType_Ascending = 0,
+		PricePatternType_Descending
+	};
+
 	void selectStockBrocker(Driver* input);
 	void login(std::string stockCode, std::string pass);
 	void buy(std::string stockCode, int price, int count);
@@ -31,8 +36,7 @@ private:
 
 	static const int GET_MARKET_PRICE_COUNT = 3;
 	static const int SLEEP_MS = 200;
-
-	static const int UINT32_MAX_VALUE = 0xFFFFFFFF;
+	static const int INVALID_PRICE = 0xFFFFFFFF;
 
 	bool isDriverNull();
 	void checkBuyPrecondition(int price, int count);
@@ -40,6 +44,8 @@ private:
 	void checkPositiveBuyingPrice(int price);
 	void checkPositiveSellingPrice(int price);
 	void checkPositiveCount(int count);
-	bool isDescendingPrice(std::string stockCode, unsigned int& last_price);
 
+	unsigned int getNicePrice(std::string stockCode, AutoTradingSystem::PricePatternType patternType);
+
+	bool isPriceOnPattern(unsigned int prev_price, unsigned int cur_price, AutoTradingSystem::PricePatternType patternType);
 };
