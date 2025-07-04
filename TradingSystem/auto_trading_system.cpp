@@ -7,28 +7,28 @@ void AutoTradingSystem::selectStockBrocker(Driver* input)
 }
 
 void AutoTradingSystem::login(std::string stockCode, std::string pass) {
-	if (drv == nullptr)
+	if (isDriverNull())
 		return;
 
 	drv->loginSystem(stockCode, pass);
 }
 
 void AutoTradingSystem::buy(std::string stockCode, int price, int count) {
-	if (drv == nullptr)
+	if (isDriverNull())
 		return;
 
 	drv->buyStock(stockCode, price, count);
 }
 
 void AutoTradingSystem::sell(std::string stockCode, int price, int count) {
-	if (drv == nullptr)
+	if (isDriverNull())
 		return;
 
 	drv->sellStock(stockCode, price, count);
 }
 
 int AutoTradingSystem::getPrice(std::string stockCode) {
-	if (drv == nullptr)
+	if (isDriverNull())
 		return -1;
 
 	return drv->getMarketPrice(stockCode, 0);
@@ -56,4 +56,8 @@ bool AutoTradingSystem::buyNiceTiming(std::string stockCode, int price)
 	drv->buyStock(stockCode, current_price, count);
 
 	return true;
+}
+
+bool AutoTradingSystem::isDriverNull() {
+	return (drv == nullptr);
 }
