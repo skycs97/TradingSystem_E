@@ -54,5 +54,3 @@ TEST(AutoTradingSystemCommonTest, getPriceTestDriverIsNull) {
 		EXPECT_EQ("[AutoTradingSystem] can't get price", e.what());
 	}
 }
-
-
