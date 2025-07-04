@@ -97,7 +97,7 @@ bool AutoTradingSystem::sellNiceTiming(std::string stockCode, int count)
 	unsigned int last_price;
 	if (isDescendingPrice(stockCode, last_price))
 	{
-		drv->sellStock(stockCode, static_cast<int>(last_price), count);
+		stockBroker->sellStock(stockCode, static_cast<int>(last_price), count);
 		return true;
 	}
 	return false;
@@ -109,7 +109,7 @@ bool AutoTradingSystem::isDescendingPrice(std::string stockCode, unsigned int& l
 	unsigned int prev_price = UINT32_MAX_VALUE;
 	while (check_num < GET_MARKET_PRICE_COUNT)
 	{
-		unsigned int cur_price = drv->getMarketPrice(stockCode, SLEEP_MS);
+		unsigned int cur_price = stockBroker->getMarketPrice(stockCode, SLEEP_MS);
 		if (prev_price > cur_price)
 		{
 			check_num++;

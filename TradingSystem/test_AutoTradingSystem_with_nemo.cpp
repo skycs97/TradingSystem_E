@@ -11,7 +11,7 @@ using std::string;
 class AutoTradingSystemFixtureWithNemo : public Test {
 protected:
 	void SetUp() override {
-		system.selectStockBrocker(&driver);
+		system.setStockBroker(&driver);
 	}
 public:
 	AutoTradingSystem system;

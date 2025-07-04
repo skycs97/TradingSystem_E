@@ -12,7 +12,7 @@ public:
 	bool buyNiceTiming(std::string stockCode, int price);
   
 private:
-	Driver* drv = nullptr;
+	Driver* stockBroker = nullptr;
 
 	static const int GET_MARKET_PRICE_COUNT = 3;
 	static const int SLEEP_MS = 200;
