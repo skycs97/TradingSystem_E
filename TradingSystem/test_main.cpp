@@ -16,21 +16,17 @@ public:
 
 TEST(TradingSystem, NemoLogin) {
 	NemoAPI *nemoApi = new NemoAPI();
-	KiwerAPI* kiwerApi = new KiwerAPI();
 	Driver* nemoDriver = new MockDriver{ nemoApi };
-	Driver* kiwerDriver = new MockDriver{ nemoApi };
-	StockerBrockerInterface interface;
-
-	interface.setDriver("nemo", nemoDriver);
-	interface.setDriver("kiwer", kiwerDriver);
-
-	interface.selectStockBrocker("nemo");
-
-	interface.loginSystem("user", "pass");
 
 	std::ostringstream oss;
 	auto oldCoutStreamBuf = std::cout.rdbuf();
 	std::cout.rdbuf(oss.rdbuf());
+
+	EXPECT_CALL(nemoDriver, loginSystem)
+		.WithRepeatedly("[NEMO]user login GOOD\n");
+
+	nemoDriver.loginSystem("user", "pass");
+
 
 	std::cout.rdbuf(oldCoutStreamBuf);
 
@@ -40,22 +36,17 @@ TEST(TradingSystem, NemoLogin) {
 }
 
 TEST(TradingSystem, KiwerLogin) {
-	NemoAPI* nemoApi = new NemoAPI();
 	KiwerAPI* kiwerApi = new KiwerAPI();
-	Driver* nemoDriver = new MockDriver{ nemoApi };
-	Driver* kiwerDriver = new MockDriver{ nemoApi };
-	StockerBrockerInterface interface;
-
-	interface.setDriver("nemo", nemoDriver);
-	interface.setDriver("kiwer", kiwerDriver);
-
-	interface.selectStockBrocker("kiwer");
-
-	interface.loginSystem("user", "pass");
+	Driver* kiwerDriver = new MockDriver{ kiwerApi };
 
 	std::ostringstream oss;
 	auto oldCoutStreamBuf = std::cout.rdbuf();
 	std::cout.rdbuf(oss.rdbuf());
+
+	EXPECT_CALL(nemoDriver, loginSystem)
+		.WithRepeatedly("user login success\n");
+
+	nemoDriver.loginSystem("user", "pass");
 
 	std::cout.rdbuf(oldCoutStreamBuf);
 
