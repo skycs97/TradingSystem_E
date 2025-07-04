@@ -70,58 +70,47 @@ int AutoTradingSystem::getPrice(std::string stockCode) {
 
 bool AutoTradingSystem::buyNiceTiming(std::string stockCode, int price)
 {
-	int check_price_count = 0;
-	int previous_price = 0;
-	int current_price = 0;
+	unsigned int last_price = getNicePrice(stockCode, AutoTradingSystem::PricePatternType_Ascending);
+	if (last_price == INVALID_PRICE) return false;
 
-	while (check_price_count < GET_MARKET_PRICE_COUNT)
-	{
-		current_price = drv->getMarketPrice(stockCode, SLEEP_MS);
-		if (current_price < previous_price) {
-			return false;
-		}
-
-		check_price_count++;
-		previous_price = current_price;
-	}
-
-	int count = price / current_price;
-
-	drv->buyStock(stockCode, current_price, count);
+	int count = price / last_price;
+	drv->buyStock(stockCode, last_price, count);
 
 	return true;
 }
 
 bool AutoTradingSystem::sellNiceTiming(std::string stockCode, int count)
 {
-	unsigned int last_price;
-	if (isDescendingPrice(stockCode, last_price))
-	{
-		drv->sellStock(stockCode, static_cast<int>(last_price), count);
-		return true;
-	}
-	return false;
+	unsigned int last_price = getNicePrice(stockCode, AutoTradingSystem::PricePatternType_Descending);
+	if (last_price == INVALID_PRICE) return false;
+
+	drv->sellStock(stockCode, static_cast<int>(last_price), count);
+	return true;
+	
 }
 
-bool AutoTradingSystem::isDescendingPrice(std::string stockCode, unsigned int& last_price)
+unsigned int AutoTradingSystem::getNicePrice(std::string stockCode, AutoTradingSystem::PricePatternType patternType)
 {
-	int check_num = 0;
-	unsigned int prev_price = UINT32_MAX_VALUE;
-	while (check_num < GET_MARKET_PRICE_COUNT)
+	unsigned int cur_price = INVALID_PRICE;
+	unsigned int prev_price = drv->getMarketPrice(stockCode, SLEEP_MS);
+	int check_count = 1;
+
+	while (check_count < GET_MARKET_PRICE_COUNT)
 	{
-		unsigned int cur_price = drv->getMarketPrice(stockCode, SLEEP_MS);
-		if (prev_price > cur_price)
-		{
-			check_num++;
-			prev_price = cur_price;
+		cur_price = drv->getMarketPrice(stockCode, SLEEP_MS);
+		if (isPriceOnPattern(prev_price, cur_price, patternType) == false) {
+			return INVALID_PRICE;
 		}
-		else break;
+		
+		check_count++;
+		prev_price = cur_price;
 	}
-	
-	if (check_num == GET_MARKET_PRICE_COUNT)
-	{
-		last_price = prev_price;
-		return true;
-	}
-	else return false;
+
+	return cur_price;
+}
+
+bool AutoTradingSystem::isPriceOnPattern(unsigned int prev_price, unsigned int cur_price, AutoTradingSystem::PricePatternType patternType)
+{
+	if (patternType == AutoTradingSystem::PricePatternType_Ascending) { return (prev_price < cur_price); }
+	else { return  (prev_price > cur_price); }
 }
