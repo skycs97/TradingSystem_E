@@ -12,4 +12,9 @@ public:
 private:
 	Driver* drv = nullptr;
 
+	void checkBuyPrecondition(int price, int count);
+	void checkSellPrecondition(int price, int count);
+	void checkPositiveBuyingPrice(int price);
+	void checkPositiveSellingPrice(int price);
+	void checkPositiveCount(int count);
 };
