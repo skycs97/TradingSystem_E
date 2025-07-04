@@ -2,9 +2,9 @@
 #include <exception>
 #include "auto_trading_system.h"
 
-void AutoTradingSystem::selectStockBrocker(Driver* input)
+void AutoTradingSystem::setStockBroker(Driver* stockBroker)
 {
-	drv = input;
+	drv = stockBroker;
 }
 
 void AutoTradingSystem::login(std::string stockCode, std::string pass) {
