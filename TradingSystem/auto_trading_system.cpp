@@ -1,6 +1,4 @@
 #include <iostream>
-#include <Windows.h>
-
 #include "auto_trading_system.h"
 
 void AutoTradingSystem::selectStockBrocker(Driver* input)
@@ -44,12 +42,11 @@ bool AutoTradingSystem::buyNiceTiming(std::string stockCode, int price)
 
 	while (check_price_count < GET_MARKET_PRICE_COUNT)
 	{
-		current_price = drv->getMarketPrice(stockCode, 0);
+		current_price = drv->getMarketPrice(stockCode, SLEEP_MS);
 		if (current_price < previous_price) {
 			break;
 		}
 
-		Sleep(200);
 		check_price_count++;
 		previous_price = current_price;
 	}
