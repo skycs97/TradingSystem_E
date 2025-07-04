@@ -9,7 +9,7 @@ TEST(AutoTradingSystemCommonTest, selectStockBrockerDriverIsNull) {
 		FAIL();
 	}
 	catch (DriverIsNullPtrException& e) {
-		EXPECT_EQ("[AutoTradingSystem] driver is null", e.what());
+		EXPECT_EQ(string("[AutoTradingSystem] driver is null"), string(e.what()));
 	}
 }
 
@@ -20,7 +20,7 @@ TEST(AutoTradingSystemCommonTest, loginTestDriverIsNull) {
 		FAIL();
 	}
 	catch (DriverIsNullPtrException& e) {
-		EXPECT_EQ("[AutoTradingSystem] can't login", e.what());
+		EXPECT_EQ(string("[AutoTradingSystem] can't login"), string(e.what()));
 	}
 }
 
@@ -31,7 +31,7 @@ TEST(AutoTradingSystemCommonTest, buyTestDriverIsNull) {
 		FAIL();
 	}
 	catch (DriverIsNullPtrException& e) {
-		EXPECT_EQ("[AutoTradingSystem] can't buy stock", e.what());
+		EXPECT_EQ(string("[AutoTradingSystem] can't buy stock"), string(e.what()));
 	}
 }
 TEST(AutoTradingSystemCommonTest, sellTestDriverIsNull) {
@@ -41,7 +41,7 @@ TEST(AutoTradingSystemCommonTest, sellTestDriverIsNull) {
 		FAIL();
 	}
 	catch (DriverIsNullPtrException& e) {
-		EXPECT_EQ("[AutoTradingSystem] can't sell stock", e.what());
+		EXPECT_EQ(string("[AutoTradingSystem] can't sell stock"), string(e.what()));
 	}
 }
 TEST(AutoTradingSystemCommonTest, getPriceTestDriverIsNull) {
@@ -51,7 +51,7 @@ TEST(AutoTradingSystemCommonTest, getPriceTestDriverIsNull) {
 		FAIL();
 	}
 	catch (DriverIsNullPtrException& e) {
-		EXPECT_EQ("[AutoTradingSystem] can't get price", e.what());
+		EXPECT_EQ(string("[AutoTradingSystem] can't get price"), string(e.what()));
 	}
 }
 
