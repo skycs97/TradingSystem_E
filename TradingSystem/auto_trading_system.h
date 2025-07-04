@@ -13,8 +13,7 @@ public:
   
 private:
 	Driver* drv = nullptr;
-<<<<<<< HEAD
-	
+
 	static const int GET_MARKET_PRICE_COUNT = 3;
 	static const int SLEEP_MS = 200;
 	static const int UINT32_MAX_VALUE = 0xFFFFFFFF;
@@ -25,10 +24,4 @@ private:
 	void checkPositiveSellingPrice(int price);
 	void checkPositiveCount(int count);
 	bool isDescendingPrice(std::string stockCode, unsigned int& last_price);
-=======
-
-	static const int GET_MARKET_PRICE_COUNT = 3;
-	static const int SLEEP_MS = 200;
-	static const unsigned int UINT32_MAX_VALUE = 0xFFFFFFFF;
->>>>>>> 30f5f17 ([SellNiceTiming] Refactoring)
 };
