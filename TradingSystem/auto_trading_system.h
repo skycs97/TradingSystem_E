@@ -15,10 +15,4 @@ private:
 	
 	static const int GET_MARKET_PRICE_COUNT = 3;
 	static const int SLEEP_MS = 200;
-
-	void checkBuyPrecondition(int price, int count);
-	void checkSellPrecondition(int price, int count);
-	void checkPositiveBuyingPrice(int price);
-	void checkPositiveSellingPrice(int price);
-	void checkPositiveCount(int count);
 };
