@@ -32,5 +32,5 @@ int AutoTradingSystem::getPrice(std::string stockCode) {
 	if (drv == nullptr)
 		return -1;
 
-	return 0;
+	return drv->getMarketPrice(stockCode, 0);
 }
