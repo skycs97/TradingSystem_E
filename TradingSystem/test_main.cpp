@@ -3,8 +3,10 @@
 #include "kiwer.cpp""
 #include "nemo_api.cpp"
 #include "driver.h"
+#include "auto_trading_system.h"
 
 using std::string;
+using namespace testing;
 
 class MockDriver : public Driver {
 public:
@@ -14,45 +16,64 @@ public:
 	MOCK_METHOD(int, getMarketPrice, (string, int), (override));
 };
 
-TEST(TradingSystem, NemoLogin) {
-	NemoAPI *nemoApi = new NemoAPI();
-	Driver* nemoDriver = new MockDriver{ nemoApi };
+TEST(TradingSystem, SelectNemoDriver) {
+	MockDriver nemoDriver;
+	MockDriver kiwerDriver;
+	AutoTradingSystem system;
 
-	std::ostringstream oss;
-	auto oldCoutStreamBuf = std::cout.rdbuf();
-	std::cout.rdbuf(oss.rdbuf());
+	system.addDriver("nemo", &nemoDriver);
+	system.addDriver("kiwer", &kiwerDriver);
+
+	system.selectDriver("nemo");
+	EXPECT_EQ("nemo", system.getCurrentDriverName());
+}
+
+TEST(TradingSystem, SelectKiwerDriver) {
+	MockDriver nemoDriver;
+	MockDriver kiwerDriver;
+	AutoTradingSystem system;
+
+	system.addDriver("nemo", &nemoDriver);
+	system.addDriver("kiwer", &kiwerDriver);
+
+	system.selectDriver("kiwer");
+	EXPECT_EQ("kiwer", system.getCurrentDriverName());
+}
+
+TEST(TradingSystem, NemoLogin) {
+	MockDriver nemoDriver;
+	MockDriver kiwerDriver;
+	AutoTradingSystem system;
+
+	system.addDriver("nemo", &nemoDriver);
+	system.addDriver("kiwer", &kiwerDriver);
+
+	system.selectDriver("nemo");
 
 	EXPECT_CALL(nemoDriver, loginSystem)
-		.WithRepeatedly("[NEMO]user login GOOD\n");
+		.Times(1);
+	EXPECT_CALL(kiwerDriver, loginSystem)
+		.Times(0);
 
-	nemoDriver.loginSystem("user", "pass");
-
-
-	std::cout.rdbuf(oldCoutStreamBuf);
-
-	string actual = oss.str();
-
-	EXPECT_EQ("[NEMO]user login GOOD\n", actual);
+	system.login("user", "passwd");
 }
 
 TEST(TradingSystem, KiwerLogin) {
-	KiwerAPI* kiwerApi = new KiwerAPI();
-	Driver* kiwerDriver = new MockDriver{ kiwerApi };
+	MockDriver nemoDriver;
+	MockDriver kiwerDriver;
+	AutoTradingSystem system;
 
-	std::ostringstream oss;
-	auto oldCoutStreamBuf = std::cout.rdbuf();
-	std::cout.rdbuf(oss.rdbuf());
+	system.addDriver("nemo", &nemoDriver);
+	system.addDriver("kiwer", &kiwerDriver);
+
+	system.selectDriver("kiwer");
 
 	EXPECT_CALL(nemoDriver, loginSystem)
-		.WithRepeatedly("user login success\n");
+		.Times(0);
+	EXPECT_CALL(kiwerDriver, loginSystem)
+		.Times(1);
 
-	nemoDriver.loginSystem("user", "pass");
-
-	std::cout.rdbuf(oldCoutStreamBuf);
-
-	string actual = oss.str();
-
-	EXPECT_EQ("user login success\n", actual);
+	system.login("user", "passwd");
 }
 
 int main(void) {

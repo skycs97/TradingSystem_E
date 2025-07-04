@@ -1,5 +1,7 @@
 #pragma once
 
+using std::string;
+
 class Driver
 {
 public:
