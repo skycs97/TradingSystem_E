@@ -9,11 +9,11 @@ void KiwerDriver::loginSystem(string stockCode, string pass)
 }
 void KiwerDriver::buyStock(string stockCode, int price, int count)
 {
-	api.buy(stockCode, price, count);
+	api.buy(stockCode, count, price);
 }
 void KiwerDriver::sellStock(string stockCode, int price, int count)
 {
-	api.sell(stockCode, price, count);
+	api.sell(stockCode, count, price);
 }
 int KiwerDriver::getMarketPrice(string stockCode, int after)
 {

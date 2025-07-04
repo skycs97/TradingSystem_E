@@ -57,3 +57,37 @@ bool AutoTradingSystem::buyNiceTiming(std::string stockCode, int price)
 
 	return true;
 }
+
+bool AutoTradingSystem::sellNiceTiming(std::string stockCode, int count)
+{
+	unsigned int last_price;
+	if (isDescendingPrice(stockCode, last_price))
+	{
+		drv->sellStock(stockCode, static_cast<int>(last_price), count);
+		return true;
+	}
+	return false;
+}
+
+bool AutoTradingSystem::isDescendingPrice(std::string stockCode, unsigned int& last_price)
+{
+	int check_num = 0;
+	unsigned int prev_price = UINT32_MAX_VALUE;
+	while (check_num < GET_MARKET_PRICE_COUNT)
+	{
+		unsigned int cur_price = drv->getMarketPrice(stockCode, SLEEP_MS);
+		if (prev_price > cur_price)
+		{
+			check_num++;
+			prev_price = cur_price;
+		}
+		else break;
+	}
+	
+	if (check_num == GET_MARKET_PRICE_COUNT)
+	{
+		last_price = prev_price;
+		return true;
+	}
+	else return false;
+}
