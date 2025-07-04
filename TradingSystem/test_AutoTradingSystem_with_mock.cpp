@@ -55,7 +55,6 @@ TEST_F(AutoTradingSystemFixtureWithMock, GetMarketPrice) {
 
 TEST_F(AutoTradingSystemFixtureWithMock, buyNiceTiming) {
 	EXPECT_CALL(driver, getMarketPrice)
-		.Times(3)
 		.WillOnce(Return(10000))
 		.WillOnce(Return(12000))
 		.WillOnce(Return(14000));
@@ -66,9 +65,8 @@ TEST_F(AutoTradingSystemFixtureWithMock, buyNiceTiming) {
 	EXPECT_EQ(true, system.buyNiceTiming("samsung", 14000));
 }
 
-TEST_F(AutoTradingSystemFixtureWithMock, buyNiceTiming) {
+TEST_F(AutoTradingSystemFixtureWithMock, buyNiceTimingNoBuy) {
 	EXPECT_CALL(driver, getMarketPrice)
-		.Times(3)
 		.WillOnce(Return(10000))
 		.WillOnce(Return(12000))
 		.WillOnce(Return(11000));
