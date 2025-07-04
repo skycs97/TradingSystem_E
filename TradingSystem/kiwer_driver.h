@@ -11,7 +11,11 @@ public:
 	void buyStock(string stockCode, int price, int count) override;
 	void sellStock(string stockCode, int price, int count) override;
 	int getMarketPrice(string stockCode, int after) override;
-
+protected:
+	virtual int getMarketPriceFromKiwerAPI(string stockCode) {
+		return api.currentPrice(stockCode);
+	}
+	virtual void sleep(int ms);
 private:
 	KiwerAPI api;
 };

@@ -62,3 +62,14 @@ TEST_F(AutoTradingSystemFixtureWithNemo, SellSTock) {
 
 	EXPECT_EQ(expected, actual);
 }
+// driver Test
+class MockedNemoDriver : public NemoDriver {
+public:
+	MOCK_METHOD(int, getMarketPriceFromNemoAPI, (string stockCode, int ms), (override));
+};
+
+TEST(NemoDriverTest, getMarketPrice) {
+	MockedNemoDriver mockedDriver;
+	EXPECT_CALL(mockedDriver, getMarketPriceFromNemoAPI(_, _)).WillRepeatedly(Return(10000));
+	EXPECT_EQ(10000, mockedDriver.getMarketPrice("samsung", 200));
+}
