@@ -76,6 +76,42 @@ TEST(TradingSystem, KiwerLogin) {
 	system.login("user", "passwd");
 }
 
+TEST(TradingSystem, NemoBuyStock) {
+	MockDriver nemoDriver;
+	MockDriver kiwerDriver;
+	AutoTradingSystem system;
+
+	system.addDriver("nemo", &nemoDriver);
+	system.addDriver("kiwer", &kiwerDriver);
+
+	system.selectDriver("nemo");
+
+	EXPECT_CALL(nemoDriver, buyStock)
+		.Times(1);
+	EXPECT_CALL(kiwerDriver, buyStock)
+		.Times(0);
+
+	system.buy("samsung", 50000, 15);
+}
+
+TEST(TradingSystem, KiwerBuyStock) {
+	MockDriver nemoDriver;
+	MockDriver kiwerDriver;
+	AutoTradingSystem system;
+
+	system.addDriver("nemo", &nemoDriver);
+	system.addDriver("kiwer", &kiwerDriver);
+
+	system.selectDriver("kiwer");
+
+	EXPECT_CALL(nemoDriver, buyStock)
+		.Times(0);
+	EXPECT_CALL(kiwerDriver, buyStock)
+		.Times(1);
+
+	system.buy("samsung", 50000, 15);
+}
+
 int main(void) {
 	::testing::InitGoogleMock();
 	return RUN_ALL_TESTS();
