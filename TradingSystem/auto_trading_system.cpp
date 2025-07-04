@@ -1,7 +1,6 @@
 #include <iostream>
 #include "auto_trading_system.h"
 
-
 void AutoTradingSystem::selectStockBrocker(Driver* input)
 {
 	drv = input;

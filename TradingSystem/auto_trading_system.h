@@ -8,6 +8,8 @@ public:
 	void buy(std::string stockCode, int price, int count);
 	void sell(std::string stockCode, int price, int count);
 	int getPrice(std::string stockCode);
+  
 private:
 	Driver* drv = nullptr;
+
 };
