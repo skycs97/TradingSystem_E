@@ -4,26 +4,28 @@
 
 void AutoTradingSystem::selectStockBrocker(Driver* input)
 {
+	if (input == nullptr)
+		throw DriverIsNullPtrException("[AutoTradingSystem] driver is null");
 	drv = input;
 }
 
 void AutoTradingSystem::login(std::string stockCode, std::string pass) {
-	if (drv == nullptr)
-		return;
-
+	if (isDriverNull())
+		throw DriverIsNullPtrException("[AutoTradingSystem] can't login");
 	drv->loginSystem(stockCode, pass);
 }
 
 void AutoTradingSystem::buy(std::string stockCode, int price, int count) {
-	if (drv == nullptr)
-		return;
+
+	if (isDriverNull())
+		throw DriverIsNullPtrException("[AutoTradingSystem] can't buy stock");
 	checkBuyPrecondition(price, count);
 	drv->buyStock(stockCode, price, count);
 }
 
 void AutoTradingSystem::sell(std::string stockCode, int price, int count) {
-	if (drv == nullptr)
-		return;
+	if (isDriverNull())
+		throw DriverIsNullPtrException("[AutoTradingSystem] can't sell stock");;
 	checkSellPrecondition(price, count);
 	drv->sellStock(stockCode, price, count);
 }
@@ -43,28 +45,27 @@ void AutoTradingSystem::checkSellPrecondition(int price, int count)
 void AutoTradingSystem::checkPositiveBuyingPrice(int price)
 {
 	if (price <= 0) {
-		throw std::exception("¸Å¼ö°¡´Â 0º¸´Ù Ä¿¾ßÇÕ´Ï´Ù.\n");
+		throw std::exception("ë§¤ìˆ˜ê°€ëŠ” 0ë³´ë‹¤ ì»¤ì•¼í•©ë‹ˆë‹¤.\n");
 	}
 }
 
 void AutoTradingSystem::checkPositiveSellingPrice(int price)
 {
 	if (price <= 0) {
-		throw std::exception("¸Åµµ°¡´Â 0º¸´Ù Ä¿¾ßÇÕ´Ï´Ù.\n");
+		throw std::exception("ë§¤ë„ê°€ëŠ” 0ë³´ë‹¤ ì»¤ì•¼í•©ë‹ˆë‹¤.\n");
 	}
 }
 
 void AutoTradingSystem::checkPositiveCount(int count)
 {
 	if (count <= 0) {
-		throw std::exception("¼ö·®Àº 0º¸´Ù Ä¿¾ßÇÕ´Ï´Ù.\n");
+		throw std::exception("ìˆ˜ëŸ‰ì€ 0ë³´ë‹¤ ì»¤ì•¼í•©ë‹ˆë‹¤.\n");
 	}
 }
 
 int AutoTradingSystem::getPrice(std::string stockCode) {
-	if (drv == nullptr)
-		return -1;
-
+	if (isDriverNull())
+		throw DriverIsNullPtrException("[AutoTradingSystem] can't get price");
 	return drv->getMarketPrice(stockCode, 0);
 }
 
@@ -114,3 +115,9 @@ bool AutoTradingSystem::isPriceOnPattern(unsigned int prev_price, unsigned int c
 	if (patternType == AutoTradingSystem::PricePatternType_Ascending) { return (prev_price < cur_price); }
 	else { return  (prev_price > cur_price); }
 }
+
+bool AutoTradingSystem::isDriverNull() {
+
+	return (drv == nullptr);
+}
+

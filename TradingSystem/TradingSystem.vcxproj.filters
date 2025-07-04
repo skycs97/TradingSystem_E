@@ -24,9 +24,6 @@
     <ClCompile Include="nemo_api.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="kiwer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="test_main.cpp">
       <Filter>테스트 파일</Filter>
     </ClCompile>
@@ -39,12 +36,39 @@
     <ClCompile Include="auto_trading_system.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="kiwer_api.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="kiwer_driver.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="test_AutoTradingSystem_with_mock.cpp">
+      <Filter>테스트 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="nemo_driver.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="test_AutoTradingSystem_with_nemo.cpp">
+      <Filter>테스트 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="test_AutoTradingSystem_common.cpp">
+      <Filter>테스트 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="test_AutoTradingSystem_with_kiwer.cpp">
+      <Filter>테스트 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="driver.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="auto_trading_system.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="kiwer_driver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="nemo_driver.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
