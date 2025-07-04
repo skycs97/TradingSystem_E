@@ -49,7 +49,7 @@ TEST_F(AutoTradingSystemFixtureWithNemo, BuyStock) {
 }
 
 TEST_F(AutoTradingSystemFixtureWithNemo, SellSTock) {
-	string expected = "[NEMO]samsung sell stock ( price : 50000 ) * ( count * 15)\n";
+	string expected = "[NEMO]samsung sell stock ( price : 50000 ) * ( count : 15)\n";
 
 	std::ostringstream oss;
 	auto oldCoutStreamBuf = std::cout.rdbuf();
