@@ -16,7 +16,6 @@ void NemoDriver::sellStock(string stockCode, int price, int count)
 }
 int NemoDriver::getMarketPrice(string stockCode, int after)
 {
-	api.getMarketPrice(stockCode, after);
-	return 0;
+	return api.getMarketPrice(stockCode, after);
 }
 
