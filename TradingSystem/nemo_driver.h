@@ -5,7 +5,7 @@
 
 using std::string;
 
-class nemoDriver : public Driver {
+class NemoDriver : public Driver {
 public:
 	void loginSystem(string stockCode, string pass) override;
 	void buyStock(string stockCode, int price, int count) override;

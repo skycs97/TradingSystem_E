@@ -5,7 +5,7 @@
 
 using std::string;
 
-class kiwerDriver : public Driver {
+class KiwerDriver : public Driver {
 public:
 	void loginSystem(string stockCode, string pass) override;
 	void buyStock(string stockCode, int price, int count) override;
