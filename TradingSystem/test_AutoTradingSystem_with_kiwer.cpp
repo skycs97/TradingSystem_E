@@ -62,3 +62,16 @@ TEST_F(AutoTradingSystemFixtureWithKiwer, SellSTock) {
 
 	EXPECT_EQ(expected, actual);
 }
+
+class MockedKiwerDriver : public KiwerDriver {
+public:
+	MOCK_METHOD(int, getMarketPriceFromKiwerAPI, (string stockCode), (override));
+	MOCK_METHOD(void, sleep, (int ms), (override));
+};
+
+TEST(KiwerDriverTest, getMarketPrice) {
+	MockedKiwerDriver mockedDriver;
+	EXPECT_CALL(mockedDriver, getMarketPriceFromKiwerAPI(_)).WillRepeatedly(Return(10000));
+	EXPECT_CALL(mockedDriver, sleep(200)).Times(1);
+	EXPECT_EQ(10000, mockedDriver.getMarketPrice("samsung", 200));
+}
