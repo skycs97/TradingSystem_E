@@ -4,28 +4,28 @@
 
 void AutoTradingSystem::setStockBroker(Driver* stockBroker)
 {
-	drv = stockBroker;
+	this->stockBroker = stockBroker;
 }
 
 void AutoTradingSystem::login(std::string stockCode, std::string pass) {
-	if (drv == nullptr)
+	if (stockBroker == nullptr)
 		return;
 
-	drv->loginSystem(stockCode, pass);
+	stockBroker->loginSystem(stockCode, pass);
 }
 
 void AutoTradingSystem::buy(std::string stockCode, int price, int count) {
-	if (drv == nullptr)
+	if (stockBroker == nullptr)
 		return;
 	checkBuyPrecondition(price, count);
-	drv->buyStock(stockCode, price, count);
+	stockBroker->buyStock(stockCode, price, count);
 }
 
 void AutoTradingSystem::sell(std::string stockCode, int price, int count) {
-	if (drv == nullptr)
+	if (stockBroker == nullptr)
 		return;
 	checkSellPrecondition(price, count);
-	drv->sellStock(stockCode, price, count);
+	stockBroker->sellStock(stockCode, price, count);
 }
 
 void AutoTradingSystem::checkBuyPrecondition(int price, int count)
@@ -62,10 +62,10 @@ void AutoTradingSystem::checkPositiveCount(int count)
 }
 
 int AutoTradingSystem::getPrice(std::string stockCode) {
-	if (drv == nullptr)
+	if (stockBroker == nullptr)
 		return -1;
 
-	return drv->getMarketPrice(stockCode, 0);
+	return stockBroker->getMarketPrice(stockCode, 0);
 }
 
 bool AutoTradingSystem::buyNiceTiming(std::string stockCode, int price)
@@ -76,7 +76,7 @@ bool AutoTradingSystem::buyNiceTiming(std::string stockCode, int price)
 
 	while (check_price_count < GET_MARKET_PRICE_COUNT)
 	{
-		current_price = drv->getMarketPrice(stockCode, SLEEP_MS);
+		current_price = stockBroker->getMarketPrice(stockCode, SLEEP_MS);
 		if (current_price < previous_price) {
 			return false;
 		}
@@ -87,7 +87,7 @@ bool AutoTradingSystem::buyNiceTiming(std::string stockCode, int price)
 
 	int count = price / current_price;
 
-	drv->buyStock(stockCode, current_price, count);
+	stockBroker->buyStock(stockCode, current_price, count);
 
 	return true;
 }
