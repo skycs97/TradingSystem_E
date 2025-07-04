@@ -154,8 +154,7 @@ TEST(TradingSystem, GetMarketPriceTest) {
 	AutoTradingSystem system;
 	EXPECT_CALL(mockedDriver, getMarketPrice(_, _))
 		.WillRepeatedly(Return(10000));
-	system.addDriver("driver", &mockedDriver);
-	system.selectDriver("driver");
+	system.selectStockBrocker(&mockedDriver);
 
 	EXPECT_EQ(system.getPrice("samsung"), 10000);
 }
