@@ -16,6 +16,30 @@ public:
 	MOCK_METHOD(int, getMarketPrice, (string, int), (override));
 };
 
+TEST(TradingSystem, SelectNemoDriver) {
+	MockDriver nemoDriver;
+	MockDriver kiwerDriver;
+	AutoTradingSystem system;
+
+	system.addDriver("nemo", &nemoDriver);
+	system.addDriver("kiwer", &kiwerDriver);
+
+	system.selectDriver("nemo");
+	EXPECT_EQ("nemo", system.getCurrentDriverName());
+}
+
+TEST(TradingSystem, SelectKiwerDriver) {
+	MockDriver nemoDriver;
+	MockDriver kiwerDriver;
+	AutoTradingSystem system;
+
+	system.addDriver("nemo", &nemoDriver);
+	system.addDriver("kiwer", &kiwerDriver);
+
+	system.selectDriver("kiwer");
+	EXPECT_EQ("kiwer", system.getCurrentDriverName());
+}
+
 TEST(TradingSystem, NemoLogin) {
 	MockDriver nemoDriver;
 	MockDriver kiwerDriver;
