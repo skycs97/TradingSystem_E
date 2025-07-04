@@ -22,7 +22,7 @@ public:
 	}
 
 	int currentPrice(std::string stockCode) {
-		std::srand(std::time(NULL));
+		std::srand(static_cast<unsigned int>(std::time(NULL)));
 		int ret = std::rand() % 10 * 100 + 5000;
 		return ret;
 	}
