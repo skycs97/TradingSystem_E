@@ -8,9 +8,13 @@ public:
 	void buy(std::string stockCode, int price, int count);
 	void sell(std::string stockCode, int price, int count);
 	int getPrice(std::string stockCode);
+	bool buyNiceTiming(std::string stockCode, int price);
   
 private:
 	Driver* drv = nullptr;
+	
+	static const int GET_MARKET_PRICE_COUNT = 3;
+	static const int SLEEP_MS = 200;
 
 	void checkBuyPrecondition(int price, int count);
 	void checkSellPrecondition(int price, int count);
