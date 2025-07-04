@@ -16,7 +16,8 @@ public:
 
 TEST(TradingSystem, NemoLogin) {
 	NemoAPI *nemoApi = new NemoAPI();
-	Driver* nemoDriver = new MockDriver{ nemoApi };
+	KiwerAPI* kiwerApi = new KiwerAPI();
+	Driver* nemoDriver = new MockDriver{ nemoApi, kiwerApi };
 
 	std::ostringstream oss;
 	auto oldCoutStreamBuf = std::cout.rdbuf();
@@ -36,8 +37,9 @@ TEST(TradingSystem, NemoLogin) {
 }
 
 TEST(TradingSystem, KiwerLogin) {
+	NemoAPI* nemoApi = new NemoAPI();
 	KiwerAPI* kiwerApi = new KiwerAPI();
-	Driver* kiwerDriver = new MockDriver{ kiwerApi };
+	Driver* nemoDriver = new MockDriver{ nemoApi, kiwerApi };
 
 	std::ostringstream oss;
 	auto oldCoutStreamBuf = std::cout.rdbuf();
@@ -54,6 +56,48 @@ TEST(TradingSystem, KiwerLogin) {
 
 	EXPECT_EQ("user login success\n", actual);
 }
+
+TEST(TradingSystem, NemoBuyStock) {
+	NemoAPI* nemoApi = new NemoAPI();
+	KiwerAPI* kiwerApi = new KiwerAPI();
+	Driver* nemoDriver = new MockDriver{ nemoApi, kiwerApi };
+
+	std::ostringstream oss;
+	auto oldCoutStreamBuf = std::cout.rdbuf();
+	std::cout.rdbuf(oss.rdbuf());
+
+	EXPECT_CALL(nemoDriver, buyStock)
+		.WithRepeatedly("[NEMO]samsung buy stock ( price : 50000 ) * ( count : 15)\n");
+
+	nemoDriver.buyStock("samsung", 50000, 15);
+
+	std::cout.rdbuf(oldCoutStreamBuf);
+
+	string actual = oss.str();
+
+	EXPECT_EQ("[NEMO]samsung buy stock ( price : 50000 ) * ( count : 15)\n", actual);
+}
+TEST(TradingSystem, KiwerBuyStock) {
+	NemoAPI* nemoApi = new NemoAPI();
+	KiwerAPI* kiwerApi = new KiwerAPI();
+	Driver* nemoDriver = new MockDriver{ nemoApi, kiwerApi };
+
+	std::ostringstream oss;
+	auto oldCoutStreamBuf = std::cout.rdbuf();
+	std::cout.rdbuf(oss.rdbuf());
+
+	EXPECT_CALL(nemoDriver, buyStock)
+		.WithRepeatedly("samsung : Buy stock ( 50000 * 15)\n");
+
+	nemoDriver.buyStock("samsung", 50000, 15);
+
+	std::cout.rdbuf(oldCoutStreamBuf);
+
+	string actual = oss.str();
+
+	EXPECT_EQ("samsung : Buy stock ( 50000 * 15)\n", actual);
+}
+
 
 int main(void) {
 	::testing::InitGoogleMock();
