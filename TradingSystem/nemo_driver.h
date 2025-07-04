@@ -11,7 +11,10 @@ public:
 	void buyStock(string stockCode, int price, int count) override;
 	void sellStock(string stockCode, int price, int count) override;
 	int getMarketPrice(string stockCode, int after) override;
-
+protected:
+	virtual int getMarketPriceFromNemoAPI(string stockCode, int ms) {
+		return api.getMarketPrice(stockCode, ms);
+	}
 private:
 	NemoAPI api;
 };
