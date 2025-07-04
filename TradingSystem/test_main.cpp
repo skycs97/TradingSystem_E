@@ -1,7 +1,7 @@
 #include <gmock/gmock.h>
 #include <string>
-#include "kiwer.h""
-#include "nemo_api.h"
+#include "kiwer.cpp""
+#include "nemo_api.cpp"
 #include "driver.h"
 
 using std::string;
