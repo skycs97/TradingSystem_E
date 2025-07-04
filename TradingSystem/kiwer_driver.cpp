@@ -17,6 +17,10 @@ void KiwerDriver::sellStock(string stockCode, int price, int count)
 }
 int KiwerDriver::getMarketPrice(string stockCode, int after)
 {
-	Sleep(after);
-	return api.currentPrice(stockCode);
+	sleep(after);
+	return getMarketPriceFromKiwerAPI(stockCode);
+}
+
+void KiwerDriver::sleep(int ms) {
+	Sleep(ms);
 }

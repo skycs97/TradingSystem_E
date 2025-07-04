@@ -65,11 +65,11 @@ TEST_F(AutoTradingSystemFixtureWithNemo, SellSTock) {
 // driver Test
 class MockedNemoDriver : public NemoDriver {
 public:
-	MOCK_METHOD(int, getMarketPriceFromNemoAPI, (string stockCode), (override));
+	MOCK_METHOD(int, getMarketPriceFromNemoAPI, (string stockCode, int ms), (override));
 };
 
-TEST(KiwerDriverTest, getMarketPrice) {
+TEST(NemoDriverTest, getMarketPrice) {
 	MockedNemoDriver mockedDriver;
-	EXPECT_CALL(mockedDriver, getMarketPriceFromKiwerAPI(_)).WillRepeatedly(Return(10000));
+	EXPECT_CALL(mockedDriver, getMarketPriceFromNemoAPI(_, _)).WillRepeatedly(Return(10000));
 	EXPECT_EQ(10000, mockedDriver.getMarketPrice("samsung", 200));
 }
