@@ -105,11 +105,11 @@ TEST_F(AutoTradingSystemFixtureWithMock, BuyStockMinusPrice) {
 	EXPECT_THROW(system.buy("samsung",  - 1, 10), std::exception);
 }
 TEST_F(AutoTradingSystemFixtureWithMock, SellStockMinusPrice) {
-	EXPECT_THROW(system.sell("samsung", 10000, -1), std::exception);
+	EXPECT_THROW(system.sell("samsung", -1, 10000), std::exception);
 }
 
 TEST_F(AutoTradingSystemFixtureWithMock, BuyStockMinusCount) {
-	EXPECT_THROW(system.buy("samsung", -1, 10), std::exception);
+	EXPECT_THROW(system.buy("samsung", 10000, -1), std::exception);
 }
 TEST_F(AutoTradingSystemFixtureWithMock, SellStockMinusCount) {
 	EXPECT_THROW(system.sell("samsung", 10000, -1), std::exception);
