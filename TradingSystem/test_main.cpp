@@ -16,6 +16,7 @@ public:
 	MOCK_METHOD(int, getMarketPrice, (string, int), (override));
 };
 
+
 TEST(TradingSystem, SelectNemoDriver) {
 	MockDriver nemoDriver;
 	MockDriver kiwerDriver;
@@ -148,40 +149,15 @@ TEST(TradingSystem, KiwerSellStock) {
 	system.sell("samsung", 50000, 15);
 }
 
-TEST(TradingSystem, NemoGetMarketPrice) {
-	MockDriver nemoDriver;
-	MockDriver kiwerDriver;
+TEST(TradingSystem, GetMarketPriceTest) {
+	MockDriver mockedDriver;
 	AutoTradingSystem system;
+	EXPECT_CALL(mockedDriver, getMarketPrice(_, _))
+		.WillRepeatedly(Return(10000));
+	system.addDriver("driver", &mockedDriver);
+	system.selectDriver("driver");
 
-	system.addDriver("nemo", &nemoDriver);
-	system.addDriver("kiwer", &kiwerDriver);
-
-	system.selectDriver("nemo");
-
-	EXPECT_CALL(nemoDriver, getMarketPrice)
-		.Times(1);
-	EXPECT_CALL(kiwerDriver, getMarketPrice)
-		.Times(0);
-
-	system.getPrice("samsung");
-}
-
-TEST(TradingSystem, NemoGetMarketPrice) {
-	MockDriver nemoDriver;
-	MockDriver kiwerDriver;
-	AutoTradingSystem system;
-
-	system.addDriver("nemo", &nemoDriver);
-	system.addDriver("kiwer", &kiwerDriver);
-
-	system.selectDriver("kiwer");
-
-	EXPECT_CALL(nemoDriver, getMarketPrice)
-		.Times(0);
-	EXPECT_CALL(kiwerDriver, getMarketPrice)
-		.Times(1);
-
-	system.getPrice("samsung");
+	EXPECT_EQ(system.getPrice("samsung"), 10000);
 }
 
 int main(void) {
