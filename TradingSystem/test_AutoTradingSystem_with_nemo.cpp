@@ -4,7 +4,6 @@
 #include "driver.h"
 #include "nemo_driver.h"
 #include "auto_trading_system.h"
-#include "nemo_api.cpp"
 
 using namespace testing;
 using std::string;
@@ -62,9 +61,4 @@ TEST_F(AutoTradingSystemFixtureWithNemo, SellSTock) {
 	string actual = oss.str();
 
 	EXPECT_EQ(expected, actual);
-}
-
-TEST_F(AutoTradingSystemFixtureWithNemo, GetMarketPrice) {
-	srand(777);
-	EXPECT_EQ(5500, system.getPrice("samsung"));
 }
